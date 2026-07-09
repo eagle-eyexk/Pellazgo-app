@@ -1,8 +1,13 @@
 uploads = []
-outputs = []
 
 [[generated]]
 id = "9fCuD8LWjXBCnyig2rOGF"
 uri = "file://artifacts/pellazgo-shop/assets/images/icon.png"
 type = "image"
 title = "Pellazgo shop app icon"
+
+[[outputs]]
+id = "6vvY1Pbda6rwwvHlbYw2d"
+uri = "file://app-store-metadata.md"
+type = "text"
+title = "Pellazgo Shop - App Store Connect Metadata"
