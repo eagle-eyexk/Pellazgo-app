@@ -17,9 +17,17 @@ workflows:
         ASC_APP_NAME: "PellazgoApp"
         ASC_SKU: "PellazgoShop"
         ASC_APPLE_ID: "6782613978"
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
     scripts:
       # ---------------------------------------------------------------
-      # STAGE 1 — Preflight: confirm signing assets are present.
+      # STAGE 1 — Preflight: confirm signing assets are present, and bump
+      # the build number so App Store Connect never rejects a re-upload
+      # for reusing a build number that already exists on a prior build.
       # ---------------------------------------------------------------
       - name: "1. Preflight — locate signing certificate & provisioning profile"
         script: |
@@ -45,6 +53,17 @@ workflows:
           echo "Certificate: $CERT_NAME"
           echo "PROFILE_PATH=$PROFILE_PATH" >> $CM_ENV
           echo "CERT_NAME=$CERT_NAME" >> $CM_ENV
+
+      - name: "1b. Preflight — auto-increment build number"
+        script: |
+          #!/bin/zsh
+          set -euo pipefail
+          LATEST=$(app-store-connect get-latest-testflight-build-number "$ASC_APPLE_ID" 2>/dev/null || \
+                   app-store-connect get-latest-app-store-build-number "$ASC_APPLE_ID" 2>/dev/null || \
+                   echo "0")
+          NEXT=$(( LATEST + 1 ))
+          echo "Latest known build number: $LATEST -> using $NEXT"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $NEXT" "$APP_DIR/Info.plist"
 
       # ---------------------------------------------------------------
       # STAGE 2 — Sanitize the WebToNative export for App Store rules.
