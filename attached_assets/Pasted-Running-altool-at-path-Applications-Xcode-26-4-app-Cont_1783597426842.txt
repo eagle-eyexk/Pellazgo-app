@@ -1,0 +1,49 @@
+Running altool at path '/Applications/Xcode-26.4.app/Contents/SharedFrameworks/ContentDelivery.framework/Resources/altool'...
+
+2026-07-09 11:40:50.081 ERROR: [CDASCAPI.B7F050340] APP STORE CONNECT API list-apps: received status code 500; internal server error. (ERFITRUQTANBUN6EEOYKTYZZ3I) (500)
+2026-07-09 11:42:10.076  INFO: [ContentDelivery.Uploader.B7F050340] 
+==========================================
+UPLOAD SUCCEEDED with no errors
+Delivery UUID: 890e9dd8-ec53-4e49-8d02-1351e081c7ee
+Transferred 6157400 bytes in 0.140 seconds (44.0MB/s, 351.915Mbps)
+==========================================
+{
+  "details" : {
+    "delivery-uuid" : "890e9dd8-ec53-4e49-8d02-1351e081c7ee",
+    "transferred" : "6157400 bytes in 0.140 seconds (44.0MB/s, 351.915Mbps)"
+  },
+  "os-version" : "Version 26.4.1 (Build 25E253)",
+  "success-message" : "No errors uploading archive at '/Users/builder/clone/build/ios/ipa/Pellazgo.ipa'.",
+  "tool-path" : "/Applications/Xcode-26.4.app/Contents/SharedFrameworks/ContentDelivery.framework/Resources",
+  "tool-version" : "26.30.4 (173004)"
+}
+
+Running altool at path '/Applications/Xcode-26.4.app/Contents/SharedFrameworks/ContentDelivery.framework/Resources/altool'...
+
+2026-07-09 11:40:50.081 ERROR: [CDASCAPI.B7F050340] APP STORE CONNECT API list-apps: received status code 500; internal server error. (ERFITRUQTANBUN6EEOYKTYZZ3I) (500)
+2026-07-09 11:42:10.076  INFO: [ContentDelivery.Uploader.B7F050340] 
+==========================================
+UPLOAD SUCCEEDED with no errors
+Delivery UUID: 890e9dd8-ec53-4e49-8d02-1351e081c7ee
+Transferred 6157400 bytes in 0.140 seconds (44.0MB/s, 351.915Mbps)
+==========================================
+{
+  "details" : {
+    "delivery-uuid" : "890e9dd8-ec53-4e49-8d02-1351e081c7ee",
+    "transferred" : "6157400 bytes in 0.140 seconds (44.0MB/s, 351.915Mbps)"
+  },
+  "os-version" : "Version 26.4.1 (Build 25E253)",
+  "success-message" : "No errors uploading archive at '/Users/builder/clone/build/ios/ipa/Pellazgo.ipa'.",
+  "tool-path" : "/Applications/Xcode-26.4.app/Contents/SharedFrameworks/ContentDelivery.framework/Resources",
+  "tool-version" : "26.30.4 (173004)"
+}
+
+[CDASCAPI.B7F050340] APP STORE CONNECT API list-apps: received status code 500; internal server error. (ERFITRUQTANBUN6EEOYKTYZZ3I) (500)
+Failed to publish /Users/builder/clone/build/ios/ipa/Pellazgo.ipa
+
+Failed to publish Pellazgo.ipa to App Store Connect.
+
+Build failed :|
+
+
+Publishing failed :|
