@@ -1,0 +1,50 @@
+      "message" : "The app references non-public symbols in Payload/Pellazgo.app/WebToNative: __dyld_get_dlopen_image_header",
+      "underlying-errors" : [
+        {
+          "code" : -19241,
+          "message" : "A server error occurred.",
+          "underlying-errors" : [
+
+          ],
+          "user-info" : {
+            "NSLocalizedDescription" : "A server error occurred.",
+            "code" : "11",
+            "description" : "The app references non-public symbols in Payload/Pellazgo.app/WebToNative: __dyld_get_dlopen_image_header"
+          }
+        }
+      ],
+      "user-info" : {
+        "NSLocalizedDescription" : "The app references non-public symbols in Payload/Pellazgo.app/WebToNative: __dyld_get_dlopen_image_header",
+        "NSLocalizedFailureReason" : "The server’s response was: ‘{\n    code = 11;\n    description = \"The app references non-public symbols in Payload/Pellazgo.app/WebToNative: __dyld_get_dlopen_image_header\";\n}’.",
+        "NSUnderlyingError" : "Error Domain=IrisAPI Code=-19241 \"A server error occurred.\" UserInfo={code=11, NSLocalizedDescription=A server error occurred., description=The app references non-public symbols in Payload/Pellazgo.app/WebToNative: __dyld_get_dlopen_image_header}",
+        "iris-code" : "11"
+      }
+    }
+  ],
+  "tool-path" : "/Applications/Xcode-26.4.app/Contents/SharedFrameworks/ContentDelivery.framework/Resources",
+  "tool-version" : "26.30.4 (173004)",
+  "warnings" : [
+    {
+      "code" : 90080,
+      "message" : "The executable 'Payload/Pellazgo.app/Frameworks/Lottie.framework' is not a Position Independent Executable. Please ensure that your build settings are configured to create PIE executables. For more information refer to Technical Q&A QA1788 - Building a Position Independent Executable in the iOS Developer Library.",
+      "underlying-errors" : [
+
+      ],
+      "user-info" : {
+        "NSLocalizedDescription" : "The executable 'Payload/Pellazgo.app/Frameworks/Lottie.framework' is not a Position Independent Executable. Please ensure that your build settings are configured to create PIE executables. For more information refer to Technical Q&A QA1788 - Building a Position Independent Executable in the iOS Developer Library.",
+        "server_warning" : "{\n    code = 90080;\n    description = \"The executable 'Payload/Pellazgo.app/Frameworks/Lottie.framework' is not a Position Independent Executable. Please ensure that your build settings are configured to create PIE executables. For more information refer to Technical Q&A QA1788 - Building a Position Independent Executable in the iOS Developer Library.\";\n}"
+      }
+    }
+  ]
+}
+
+Failed to upload archive at "/Users/builder/clone/build/ios/ipa/Pellazgo.ipa"
+Failed to publish /Users/builder/clone/build/ios/ipa/Pellazgo.ipa
+
+Failed to publish Pellazgo.ipa to App Store Connect.
+
+Build failed :|
+
+
+Publishing failed :|
+Failed to publish Pellazgo.ipa to App Store Connect.
