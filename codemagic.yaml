@@ -1,22 +1,19 @@
 workflows:
-  pellazgo-ios-resign:
-    name: Pellazgo Shop - iOS Resign & Publish
+  pellazgo-ios-workflow:
+    name: Pellazgo Shop iOS - TestFlight & App Store
     max_build_duration: 60
-    instance_type: mac_mini_m2
     integrations:
       app_store_connect: pellazgo_asc
     environment:
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.pellazgo.pellazgo
+      xcode: latest
       vars:
+        APP_ID: "6782613978"
         BUNDLE_ID: "com.pellazgo.pellazgo"
-        APP_NAME: "Pellazgo"
-        TEAM_ID: "H4QUDPK7S3"
-        APP_DIR: "ios-app/Pellazgo.app"
-        ASC_APP_NAME: "PellazgoApp"
-        ASC_SKU: "PellazgoShop"
-        ASC_APPLE_ID: "6782613978"
+        XCODE_PROJECT: "mobile-app-swift/Pellazgo.xcodeproj"
+        XCODE_SCHEME: "Pellazgo"
     triggering:
       events:
         - push
@@ -24,331 +21,36 @@ workflows:
         - pattern: main
           include: true
     scripts:
-      # ---------------------------------------------------------------
-      # STAGE 1 — Preflight: confirm signing assets are present, and bump
-      # the build number so App Store Connect never rejects a re-upload
-      # for reusing a build number that already exists on a prior build.
-      # ---------------------------------------------------------------
-      - name: "1. Preflight — locate signing certificate & provisioning profile"
+      - name: Increment build number
         script: |
           #!/bin/zsh
-          set -euo pipefail
-          # `ios_signing` above already fetched the existing certificate/profile
-          # from App Store Connect and installed them (keychain + profiles dir)
-          # before any script runs. Never call `app-store-connect
-          # fetch-signing-files --create` here — that tries to mint a brand
-          # new certificate and fails when one already exists without a
-          # matching private key in Codemagic.
-          PROFILE_PATH=$(find "$HOME/Library/MobileDevice/Provisioning Profiles" -name "*.mobileprovision" | head -1)
-          if [ -z "$PROFILE_PATH" ]; then
-            echo "ERROR: no provisioning profile found. Check that the pellazgo_asc integration has a valid App Store distribution profile for $BUNDLE_ID."
-            exit 1
-          fi
-          CERT_NAME=$(security find-identity -v -p codesigning | grep -E "Apple Distribution|iPhone Distribution" | head -1 | awk -F '"' '{print $2}')
-          if [ -z "$CERT_NAME" ]; then
-            echo "ERROR: no Apple Distribution / iPhone Distribution signing identity found in keychain."
-            exit 1
-          fi
-          echo "Profile: $PROFILE_PATH"
-          echo "Certificate: $CERT_NAME"
-          echo "PROFILE_PATH=$PROFILE_PATH" >> $CM_ENV
-          echo "CERT_NAME=$CERT_NAME" >> $CM_ENV
-
-      - name: "1b. Preflight — auto-increment build number"
-        script: |
-          #!/bin/zsh
-          set -euo pipefail
-          LATEST=$(app-store-connect get-latest-testflight-build-number "$ASC_APPLE_ID" 2>/dev/null || \
-                   app-store-connect get-latest-app-store-build-number "$ASC_APPLE_ID" 2>/dev/null || \
+          set -e
+          LATEST=$(app-store-connect get-latest-testflight-build-number "$APP_ID" 2>/dev/null || \
+                   app-store-connect get-latest-app-store-build-number "$APP_ID" 2>/dev/null || \
                    echo "0")
-          NEXT=$(( LATEST + 1 ))
-          echo "Latest known build number: $LATEST -> using $NEXT"
-          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $NEXT" "$APP_DIR/Info.plist"
+          cd "$CM_BUILD_DIR/mobile-app-swift"
+          agvtool new-version -all $(( LATEST + 1 ))
 
-      # ---------------------------------------------------------------
-      # STAGE 2 — Sanitize the WebToNative export for App Store rules.
-      # Everything here is idempotent and safe to re-run.
-      # ---------------------------------------------------------------
-      - name: "2a. Sanitize — strip simulator architectures (device arm64 only)"
+      - name: Set up code signing
         script: |
           #!/bin/zsh
-          set -euo pipefail
-          thin_if_needed() {
-            local bin="$1"
-            [ -f "$bin" ] || return 0
-            lipo -info "$bin" 2>/dev/null | grep -q "arm64" || return 0
-            if lipo -info "$bin" 2>/dev/null | grep -qE "x86_64|i386"; then
-              lipo -thin arm64 "$bin" -output "$bin.thin"
-              mv "$bin.thin" "$bin"
-              echo "Thinned to arm64: $bin"
-            fi
-          }
-          thin_if_needed "$APP_DIR/$APP_NAME"
-          [ -f "$APP_DIR/WebToNative" ] && thin_if_needed "$APP_DIR/WebToNative"
-          for fw in "$APP_DIR"/Frameworks/*.framework; do
-            [ -d "$fw" ] || continue
-            name=$(basename "$fw" .framework)
-            thin_if_needed "$fw/$name"
-          done
-          find "$APP_DIR" -name "*.dylib" | while read -r dylib; do
-            thin_if_needed "$dylib"
-          done
+          set -e
+          xcode-project use-profiles \
+            --project "$CM_BUILD_DIR/$XCODE_PROJECT"
 
-      - name: "2b. Sanitize — patch non-PIE framework binaries"
+      - name: Build IPA
         script: |
           #!/bin/zsh
-          set -euo pipefail
-          cat > /tmp/fix_pie.py << 'EOF'
-          import struct, sys, os
-
-          MH_MAGIC_64 = 0xfeedfacf
-          FAT_MAGIC = 0xcafebabe
-          FAT_MAGIC_64 = 0xcafebabf
-          MH_PIE = 0x00200000
-
-          def patch_slice(data, offset):
-              magic = struct.unpack_from('<I', data, offset)[0]
-              if magic != MH_MAGIC_64:
-                  return False
-              flags_off = offset + 24
-              flags = struct.unpack_from('<I', data, flags_off)[0]
-              if flags & MH_PIE:
-                  return False
-              flags |= MH_PIE
-              struct.pack_into('<I', data, flags_off, flags)
-              return True
-
-          def patch_file(path):
-              with open(path, 'rb') as f:
-                  data = bytearray(f.read())
-              if len(data) < 8:
-                  return
-              magic = struct.unpack_from('>I', data, 0)[0]
-              changed = False
-              if magic in (FAT_MAGIC, FAT_MAGIC_64):
-                  nfat = struct.unpack_from('>I', data, 4)[0]
-                  entry_size = 32 if magic == FAT_MAGIC_64 else 20
-                  for i in range(nfat):
-                      entry_off = 8 + i * entry_size
-                      slice_off = struct.unpack_from('>I', data, entry_off + 8)[0]
-                      if patch_slice(data, slice_off):
-                          changed = True
-              else:
-                  if patch_slice(data, 0):
-                      changed = True
-              if changed:
-                  with open(path, 'wb') as f:
-                      f.write(data)
-                  print(f"Patched PIE flag: {path}")
-
-          for root, dirs, files in os.walk(sys.argv[1]):
-              for d in list(dirs):
-                  if d.endswith('.framework'):
-                      fw_path = os.path.join(root, d)
-                      bin_name = d[:-len('.framework')]
-                      bin_path = os.path.join(fw_path, bin_name)
-                      if os.path.isfile(bin_path):
-                          patch_file(bin_path)
-              for f in files:
-                  if f.endswith('.dylib'):
-                      patch_file(os.path.join(root, f))
-          EOF
-          python3 /tmp/fix_pie.py "$APP_DIR/Frameworks"
-
-      - name: "2c. Sanitize — fix CFBundleSupportedPlatforms in every nested plist"
-        script: |
-          #!/bin/zsh
-          set -euo pipefail
-          find "$APP_DIR" -name "Info.plist" | while read -r plist; do
-            if /usr/libexec/PlistBuddy -c "Print :CFBundleSupportedPlatforms" "$plist" 2>/dev/null | grep -qi "iPhoneSimulator"; then
-              /usr/libexec/PlistBuddy -c "Delete :CFBundleSupportedPlatforms" "$plist"
-              /usr/libexec/PlistBuddy -c "Add :CFBundleSupportedPlatforms array" "$plist"
-              /usr/libexec/PlistBuddy -c "Add :CFBundleSupportedPlatforms:0 string iPhoneOS" "$plist"
-              echo "Fixed CFBundleSupportedPlatforms: $plist"
-            fi
-          done
-          # Export compliance: this app is a plain HTTPS webview wrapper with
-          # no custom/proprietary encryption, so declare the standard
-          # exemption up front to avoid the "Missing Compliance" publish block.
-          MAIN_PLIST="$APP_DIR/Info.plist"
-          /usr/libexec/PlistBuddy -c "Print :ITSAppUsesNonExemptEncryption" "$MAIN_PLIST" >/dev/null 2>&1 \
-            && /usr/libexec/PlistBuddy -c "Set :ITSAppUsesNonExemptEncryption false" "$MAIN_PLIST" \
-            || /usr/libexec/PlistBuddy -c "Add :ITSAppUsesNonExemptEncryption bool false" "$MAIN_PLIST"
-          echo "Set ITSAppUsesNonExemptEncryption=false in $MAIN_PLIST"
-
-      - name: "2d. Sanitize — scan and patch known non-public API symbol strings"
-        script: |
-          #!/bin/zsh
-          set -euo pipefail
-          cat > /tmp/fix_private_symbols.py << 'EOF'
-          import sys, os, glob
-
-          # Apple's App Store validator statically scans every Mach-O binary
-          # in the bundle for known private/non-public API symbol *strings*.
-          # These are typically pulled in via dlsym() by third-party
-          # crash-symbolication helpers (not linked imports), purely for
-          # optional stack-trace enrichment. We flip the case of a trailing
-          # character in each match (same byte length -> Mach-O layout is
-          # untouched) so the static scanner no longer matches it. At
-          # runtime, dlsym() simply fails to resolve the renamed symbol and
-          # the optional feature silently no-ops; core app functionality is
-          # unaffected.
-          PRIVATE_SYMBOLS = [
-              b"dyld_get_dlopen_image_header",
-              b"dyld_get_image_header",
-              b"dyld_get_image_name",
-              b"dyld_get_image_vmaddr_slide",
-              b"dyld_get_image_slide",
-          ]
-
-          def patch_file(path):
-              with open(path, 'rb') as f:
-                  data = bytearray(f.read())
-              total = 0
-              for target in PRIVATE_SYMBOLS:
-                  replacement = target[:-1] + target[-1:].upper()
-                  idx = 0
-                  while True:
-                      idx = data.find(target, idx)
-                      if idx == -1:
-                          break
-                      # avoid double-patching a symbol that is a substring
-                      # of one already patched/replaced in this pass
-                      data[idx:idx+len(target)] = replacement
-                      total += 1
-                      idx += len(target)
-              if total:
-                  with open(path, 'wb') as f:
-                      f.write(data)
-                  print(f"Patched {total} private-symbol occurrence(s) in {path}")
-
-          def is_macho(path):
-              try:
-                  with open(path, 'rb') as f:
-                      magic = f.read(4)
-              except OSError:
-                  return False
-              return magic in (
-                  b'\xfe\xed\xfa\xce', b'\xce\xfa\xed\xfe',
-                  b'\xfe\xed\xfa\xcf', b'\xcf\xfa\xed\xfe',
-                  b'\xca\xfe\xba\xbe', b'\xbe\xba\xfe\xca',
-                  b'\xca\xfe\xba\xbf', b'\xbf\xba\xfe\xca',
-              )
-
-          root = sys.argv[1]
-          for dirpath, dirnames, filenames in os.walk(root):
-              for fn in filenames:
-                  full = os.path.join(dirpath, fn)
-                  if os.path.islink(full):
-                      continue
-                  if is_macho(full):
-                      patch_file(full)
-          EOF
-          python3 /tmp/fix_private_symbols.py "$APP_DIR"
-
-      # ---------------------------------------------------------------
-      # STAGE 3 — Sign everything with the App Store distribution identity.
-      # ---------------------------------------------------------------
-      - name: "3. Sign — resign frameworks and app bundle"
-        script: |
-          #!/bin/zsh
-          set -euo pipefail
-
-          rm -rf "$APP_DIR/embedded.mobileprovision"
-          cp "$PROFILE_PATH" "$APP_DIR/embedded.mobileprovision"
-
-          security cms -D -i "$PROFILE_PATH" > /tmp/profile.plist
-          /usr/libexec/PlistBuddy -x -c "Print :Entitlements" /tmp/profile.plist > /tmp/entitlements.plist
-
-          # Sign nested code (frameworks/dylibs) before the outer bundle,
-          # innermost-first, so embedded signatures are valid when the app
-          # itself is sealed.
-          find "$APP_DIR/Frameworks" \( -name "*.framework" -o -name "*.dylib" \) 2>/dev/null | while read -r item; do
-            codesign --force --sign "$CERT_NAME" "$item"
-          done
-
-          codesign --force --sign "$CERT_NAME" \
-            --entitlements /tmp/entitlements.plist \
-            "$APP_DIR"
-
-          codesign --verify --deep --strict --verbose=2 "$APP_DIR"
-
-      # ---------------------------------------------------------------
-      # STAGE 4 — Hard gate: nothing proceeds to packaging unless every
-      # known rejection cause has been eliminated.
-      # ---------------------------------------------------------------
-      - name: "4. Verify — fail fast if any known issue remains"
-        script: |
-          #!/bin/zsh
-          set -euo pipefail
-          FAIL=0
-
-          echo "-- Architectures --"
-          find "$APP_DIR" -type f | while read -r bin; do
-            file "$bin" 2>/dev/null | grep -q "Mach-O" || continue
-            if lipo -info "$bin" 2>/dev/null | grep -qE "x86_64|i386"; then
-              echo "FAIL: simulator architecture still present in $bin"
-              FAIL=1
-            fi
-          done
-
-          echo "-- CFBundleSupportedPlatforms --"
-          find "$APP_DIR" -name "Info.plist" | while read -r plist; do
-            if /usr/libexec/PlistBuddy -c "Print :CFBundleSupportedPlatforms" "$plist" 2>/dev/null | grep -qi "iPhoneSimulator"; then
-              echo "FAIL: iPhoneSimulator still referenced in $plist"
-              FAIL=1
-            fi
-          done
-
-          echo "-- Export compliance key --"
-          /usr/libexec/PlistBuddy -c "Print :ITSAppUsesNonExemptEncryption" "$APP_DIR/Info.plist" >/dev/null 2>&1 || {
-            echo "FAIL: ITSAppUsesNonExemptEncryption missing from main Info.plist"
-            FAIL=1
-          }
-
-          echo "-- Private API symbol strings --"
-          for sym in dyld_get_dlopen_image_header dyld_get_image_header dyld_get_image_name dyld_get_image_vmaddr_slide dyld_get_image_slide; do
-            if grep -rIl "$sym" "$APP_DIR" 2>/dev/null | grep -v ".plist$" | head -1 | grep -q .; then
-              echo "FAIL: private symbol '$sym' still present as an exact string"
-              FAIL=1
-            fi
-          done
-
-          echo "-- Bundle identifier --"
-          ACTUAL_ID=$(/usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "$APP_DIR/Info.plist")
-          if [ "$ACTUAL_ID" != "$BUNDLE_ID" ]; then
-            echo "FAIL: CFBundleIdentifier is '$ACTUAL_ID', expected '$BUNDLE_ID'"
-            FAIL=1
-          fi
-
-          echo "-- Code signature --"
-          codesign --verify --deep --strict "$APP_DIR" || FAIL=1
-
-          if [ "$FAIL" != "0" ]; then
-            echo "READY FOR APP STORE: NO -- see FAIL lines above"
-            exit 1
-          fi
-          echo "READY FOR APP STORE: YES"
-
-      # ---------------------------------------------------------------
-      # STAGE 5 — Package into an IPA for Codemagic to publish.
-      # ---------------------------------------------------------------
-      - name: "5. Package — build IPA"
-        script: |
-          #!/bin/zsh
-          set -euo pipefail
-          rm -rf build
-          mkdir -p build/Payload
-          cp -r "$APP_DIR" "build/Payload/$APP_NAME.app"
-          cd build
-          zip -r -y "$APP_NAME.ipa" Payload
-          cd ..
-          mkdir -p build/ios/ipa
-          mv "build/$APP_NAME.ipa" "build/ios/ipa/$APP_NAME.ipa"
-          echo "Built build/ios/ipa/$APP_NAME.ipa"
+          set -e
+          xcode-project build-ipa \
+            --project "$CM_BUILD_DIR/$XCODE_PROJECT" \
+            --scheme "$XCODE_SCHEME" \
+            --config Release
 
     artifacts:
       - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - $HOME/Library/Logs/gym/*.log
 
     publishing:
       app_store_connect:

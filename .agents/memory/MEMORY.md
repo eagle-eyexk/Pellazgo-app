@@ -1,0 +1,1 @@
+- [Pellazgo iOS build strategy](pellazgo-ios-build.md) — resigning a WebToNative simulator export is fragile; switched to a real minimal Swift/WKWebView Xcode project built via Codemagic `xcode-project build-ipa`.
