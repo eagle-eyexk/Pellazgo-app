@@ -1,0 +1,91 @@
+workflows:
+  pellazgo-ios-resign:
+    name: Pellazgo Shop - iOS Resign & Publish
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    integrations:
+      app_store_connect: pellazgo_asc
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.pellazgo.pellazgo
+      vars:
+        BUNDLE_ID: "com.pellazgo.pellazgo"
+        APP_NAME: "Pellazgo"
+        TEAM_ID: "H4QUDPK7S3"
+        XCODE_WORKSPACE: ""
+        APP_DIR: "ios-app/Pellazgo.app"
+      groups:
+        - app_store_credentials
+    scripts:
+      - name: Fetch signing files from App Store Connect
+        script: |
+          #!/bin/zsh
+          set -e
+          app-store-connect fetch-signing-files "$BUNDLE_ID" \
+            --type IOS_APP_STORE \
+            --create
+
+      - name: Set up signing certificate & provisioning profile
+        script: |
+          #!/bin/zsh
+          set -e
+          keychain initialize
+          keychain add-certificates
+          PROFILE_PATH=$(find "$HOME/Library/MobileDevice/Provisioning Profiles" -name "*.mobileprovision" | head -1)
+          echo "Using profile: $PROFILE_PATH"
+          echo "PROFILE_PATH=$PROFILE_PATH" >> $CM_ENV
+
+      - name: Resign the app bundle
+        script: |
+          #!/bin/zsh
+          set -e
+
+          CERT_NAME=$(security find-identity -v -p codesigning | grep "Apple Distribution" | head -1 | awk -F '"' '{print $2}')
+          if [ -z "$CERT_NAME" ]; then
+            CERT_NAME=$(security find-identity -v -p codesigning | grep "iPhone Distribution" | head -1 | awk -F '"' '{print $2}')
+          fi
+          echo "Signing identity: $CERT_NAME"
+
+          rm -rf "$APP_DIR/embedded.mobileprovision"
+          cp "$PROFILE_PATH" "$APP_DIR/embedded.mobileprovision"
+
+          security cms -D -i "$PROFILE_PATH" > /tmp/profile.plist
+          /usr/libexec/PlistBuddy -x -c "Print :Entitlements" /tmp/profile.plist > /tmp/entitlements.plist
+
+          find "$APP_DIR/Frameworks" -name "*.framework" -o -name "*.dylib" 2>/dev/null | while read -r item; do
+            codesign --force --deep --sign "$CERT_NAME" "$item" || true
+          done
+
+          codesign --force --deep --sign "$CERT_NAME" \
+            --entitlements /tmp/entitlements.plist \
+            "$APP_DIR"
+
+          codesign --verify --deep --strict --verbose=2 "$APP_DIR"
+
+      - name: Package IPA
+        script: |
+          #!/bin/zsh
+          set -e
+          mkdir -p build/Payload
+          cp -r "$APP_DIR" build/Payload/Pellazgo.app
+          cd build
+          zip -r -y Pellazgo.ipa Payload
+          cd ..
+          mkdir -p build/ios/ipa
+          mv build/Pellazgo.ipa build/ios/ipa/Pellazgo.ipa
+
+    artifacts:
+      - build/ios/ipa/*.ipa
+
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        submit_to_app_store: false
+      email:
+        recipients:
+          - user@example.com
+        notify:
+          success: true
+          failure: true

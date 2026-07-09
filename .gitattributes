@@ -1,0 +1,1 @@
+ios-app/Pellazgo.app/WebToNative.debug.dylib filter=lfs diff=lfs merge=lfs -text

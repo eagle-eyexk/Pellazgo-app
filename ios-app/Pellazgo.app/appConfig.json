@@ -1,0 +1,176 @@
+{
+    "websiteLink": "https://www.webtonative.com/api/v1/demo/handleDemoRedirection?requestId=6a4f779caba59204f1b32073&platform=ios",
+    "testLink": "https://pellazgo.base44.app/",
+    "id": "6a4f779caba59204f1b32073",
+    "applicationId": "com.wnapp.id1783592859108",
+    "iconImg": "https://webtonative-user-uploads.s3.ap-south-1.amazonaws.com/icons/generated/dd991415-681f-42c1-8f60-042a8dc25b6b.jpg",
+    "splashIconUrl": null,
+    "splashWithAnimation": true,
+    "barcodeEnabled": false,
+    "requestTrackingAuthorization": false,
+    "requestTrackingConsentOnLoad": true,
+    "isPaid": false,
+    "displayId": 1783592859108,
+    "status": "PENDING",
+    "bundleId": "com.wnapp.id1783592859108",
+    "appName": "Pellazgo Shop",
+    "internalExternalLinks": [
+        {
+            "type": "EXTERNAL",
+            "label": "Non-web links",
+            "regex": "^(?!https?://).*",
+            "pageType": "CUSTOM"
+        },
+        {
+            "type": "EXTERNAL",
+            "label": "Facebook",
+            "regex": "https?://([-\\w]+\\.)*facebook\\.com.*",
+            "pageType": "CUSTOM"
+        },
+        {
+            "type": "EXTERNAL",
+            "label": "Twitter",
+            "regex": "https?://([-\\w]+\\.)*twitter\\.com/.*",
+            "pageType": "CUSTOM"
+        },
+        {
+            "type": "EXTERNAL",
+            "label": "Instagram",
+            "regex": "https?://([-\\w]+\\.)*instagram\\.com/.*",
+            "pageType": "CUSTOM"
+        },
+        {
+            "type": "EXTERNAL",
+            "label": "Google Maps",
+            "regex": "https?://maps\\.google\\.com.*",
+            "pageType": "CUSTOM"
+        },
+        {
+            "type": "EXTERNAL",
+            "label": "Google Maps Search",
+            "regex": "https?://([-\\w]+\\.)*google\\.com/maps/search/.*",
+            "pageType": "CUSTOM"
+        },
+        {
+            "type": "EXTERNAL",
+            "label": "LinkedIn",
+            "regex": "https?://([-\\w]+\\.)*linkedin\\.com/.*",
+            "pageType": "CUSTOM"
+        },
+        {
+            "type": "EXTERNAL",
+            "label": "Whatsapp",
+            "regex": "https?://([-\\w]+\\.)*whatsapp\\.com/.*",
+            "pageType": "CUSTOM"
+        },
+        {
+            "type": "INTERNAL",
+            "label": "All Other Links",
+            "regex": ".*",
+            "pageType": "ALL_PAGES"
+        }
+    ],
+    "splash": {
+        "text": "Pellazgo Shop",
+        "fontFamily": "Lobster",
+        "fontWeight": "400",
+        "backgroundColor": "#0f2318",
+        "color": "#ffffff",
+        "fontSize": "20",
+        "customizationType": "WITH_ANIMATION",
+        "splashJsonPath": "https://webtonative-user-uploads.s3.ap-south-1.amazonaws.com/animations/generated/a661d032-6ba5-496a-819e-c6c4f10f33a6.json",
+        "animationBGColor": "#0f2318",
+        "useAppIconForSplash": true,
+        "splashIconWidth": 200,
+        "splashIconHeight": 200
+    },
+    "icon": {
+        "iconText": "PS",
+        "fontFamily": "Lobster",
+        "fontWeight": "400",
+        "backgroundColor": "#ff725e",
+        "color": "#ffffff",
+        "fontSize": "40",
+        "imgPath": "https://webtonative-user-uploads.s3.ap-south-1.amazonaws.com/icons/generated/dd991415-681f-42c1-8f60-042a8dc25b6b.jpg"
+    },
+    "noInternet": true,
+    "noInternetData": {
+        "pages": [
+            {
+                "topMarginPercent": 14,
+                "elements": [
+                    {
+                        "fileName": "no_internet.png",
+                        "fileUrl": "https://assets.orufy.com/no_internet_b3bd47e921.png",
+                        "type": "image"
+                    },
+                    {
+                        "fontSize": 32,
+                        "type": "text",
+                        "value": "Oops!",
+                        "textColor": "#363942",
+                        "fontWeight": 700
+                    },
+                    {
+                        "fontSize": 14,
+                        "type": "text",
+                        "value": "Slow or No Internet Connection Please check your connection settings",
+                        "textColor": "#363942",
+                        "fontWeight": 400
+                    }
+                ]
+            }
+        ],
+        "bgColor": "#FFFFFF",
+        "actionButtons": [
+            {
+                "btnBgColor": "#363942",
+                "borderColor": "#363942",
+                "borderWidth": 4,
+                "text": "Try Again",
+                "roundedCornerPercent": 8,
+                "textColor": "#ffffff",
+                "url": "#"
+            }
+        ]
+    },
+    "backPressExit": {
+        "disableBackButton": false,
+        "blockBackMapping": [
+            {
+                "type": "all",
+                "link": ""
+            }
+        ],
+        "blockBackRegEx": ".*",
+        "exitType": "CONFIRMATION",
+        "exitMessage": "Press back again to exit",
+        "exitPages": []
+    },
+    "FLOATING_ACTION_MENU": {
+        "adonId": "iNDIiGgEZJY6u5fZU2KB",
+        "active": true
+    },
+    "ADVANCED_BOTTOM_NAVIGATION": {
+        "adonId": "gyYrxawLImdGsDUhxX7q",
+        "active": true
+    },
+    "OS_NOTIFICATION_SOUND": {
+        "adonId": "EptfBxNeyndpo885Qsb0",
+        "active": true
+    },
+    "oneSignalSoftPrompt": false,
+    "version": "1",
+    "versionName": "1.0",
+    "buildCollectionId": "6a4f779daba59204f1b3207f",
+    "v": 0,
+    "latestGenerationDataUpdatedAt": "2026-07-09T10:27:44.510Z",
+    "customPackageId": "IOS_STARTER",
+    "widgets": [],
+    "w2nEnv": {
+        "appClipResolveBaseUrl": "clip.webtonative.com/resolve"
+    },
+    "platform": "ios",
+    "addonsLength": 3,
+    "deltaTime": 0
+}
