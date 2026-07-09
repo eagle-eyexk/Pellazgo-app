@@ -1,0 +1,8 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "9fCuD8LWjXBCnyig2rOGF"
+uri = "file://artifacts/pellazgo-shop/assets/images/icon.png"
+type = "image"
+title = "Pellazgo shop app icon"
