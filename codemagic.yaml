@@ -15,21 +15,21 @@ workflows:
         TEAM_ID: "H4QUDPK7S3"
         APP_DIR: "ios-app/Pellazgo.app"
     scripts:
-      - name: Fetch signing files from App Store Connect
+      - name: Locate signing certificate & provisioning profile
         script: |
           #!/bin/zsh
           set -e
-          app-store-connect fetch-signing-files "$BUNDLE_ID" \
-            --type IOS_APP_STORE \
-            --create
-
-      - name: Set up signing certificate & provisioning profile
-        script: |
-          #!/bin/zsh
-          set -e
-          keychain initialize
-          keychain add-certificates
+          # `ios_signing` above already fetched the existing certificate/profile
+          # from App Store Connect and installed them (keychain + profiles dir)
+          # before this script runs. Do NOT call `app-store-connect
+          # fetch-signing-files --create` here — that tries to mint a brand
+          # new certificate and fails when one already exists without a
+          # matching private key in Codemagic.
           PROFILE_PATH=$(find "$HOME/Library/MobileDevice/Provisioning Profiles" -name "*.mobileprovision" | head -1)
+          if [ -z "$PROFILE_PATH" ]; then
+            echo "No provisioning profile found. Check that the pellazgo_asc integration has a valid App Store distribution profile for $BUNDLE_ID."
+            exit 1
+          fi
           echo "Using profile: $PROFILE_PATH"
           echo "PROFILE_PATH=$PROFILE_PATH" >> $CM_ENV
 
