@@ -13,10 +13,7 @@ workflows:
         BUNDLE_ID: "com.pellazgo.pellazgo"
         APP_NAME: "Pellazgo"
         TEAM_ID: "H4QUDPK7S3"
-        XCODE_WORKSPACE: ""
         APP_DIR: "ios-app/Pellazgo.app"
-      groups:
-        - app_store_credentials
     scripts:
       - name: Fetch signing files from App Store Connect
         script: |
@@ -83,9 +80,3 @@ workflows:
         auth: integration
         submit_to_testflight: true
         submit_to_app_store: false
-      email:
-        recipients:
-          - user@example.com
-        notify:
-          success: true
-          failure: true
