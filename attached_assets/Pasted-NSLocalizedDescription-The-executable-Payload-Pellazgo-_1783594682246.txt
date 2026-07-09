@@ -1,0 +1,50 @@
+NSLocalizedDescription" : "The executable 'Payload/Pellazgo.app/Frameworks/GoogleAppMeasurementIdentitySupport.framework' is not a Position Independent Executable. Please ensure that your build settings are configured to create PIE executables. For more information refer to Technical Q&A QA1788 - Building a Position Independent Executable in the iOS Developer Library.",
+        "server_warning" : "{\n    code = 90080;\n    description = \"The executable 'Payload/Pellazgo.app/Frameworks/GoogleAppMeasurementIdentitySupport.framework' is not a Position Independent Executable. Please ensure that your build settings are configured to create PIE executables. For more information refer to Technical Q&A QA1788 - Building a Position Independent Executable in the iOS Developer Library.\";\n}"
+      }
+    },
+    {
+      "code" : 90080,
+      "message" : "The executable 'Payload/Pellazgo.app/Frameworks/FirebaseAnalytics.framework' is not a Position Independent Executable. Please ensure that your build settings are configured to create PIE executables. For more information refer to Technical Q&A QA1788 - Building a Position Independent Executable in the iOS Developer Library.",
+      "underlying-errors" : [
+
+      ],
+      "user-info" : {
+        "NSLocalizedDescription" : "The executable 'Payload/Pellazgo.app/Frameworks/FirebaseAnalytics.framework' is not a Position Independent Executable. Please ensure that your build settings are configured to create PIE executables. For more information refer to Technical Q&A QA1788 - Building a Position Independent Executable in the iOS Developer Library.",
+        "server_warning" : "{\n    code = 90080;\n    description = \"The executable 'Payload/Pellazgo.app/Frameworks/FirebaseAnalytics.framework' is not a Position Independent Executable. Please ensure that your build settings are configured to create PIE executables. For more information refer to Technical Q&A QA1788 - Building a Position Independent Executable in the iOS Developer Library.\";\n}"
+      }
+    },
+    {
+      "code" : 90080,
+      "message" : "The executable 'Payload/Pellazgo.app/Frameworks/Lottie.framework' is not a Position Independent Executable. Please ensure that your build settings are configured to create PIE executables. For more information refer to Technical Q&A QA1788 - Building a Position Independent Executable in the iOS Developer Library.",
+      "underlying-errors" : [
+
+      ],
+      "user-info" : {
+        "NSLocalizedDescription" : "The executable 'Payload/Pellazgo.app/Frameworks/Lottie.framework' is not a Position Independent Executable. Please ensure that your build settings are configured to create PIE executables. For more information refer to Technical Q&A QA1788 - Building a Position Independent Executable in the iOS Developer Library.",
+        "server_warning" : "{\n    code = 90080;\n    description = \"The executable 'Payload/Pellazgo.app/Frameworks/Lottie.framework' is not a Position Independent Executable. Please ensure that your build settings are configured to create PIE executables. For more information refer to Technical Q&A QA1788 - Building a Position Independent Executable in the iOS Developer Library.\";\n}"
+      }
+    },
+    {
+      "code" : 90080,
+      "message" : "The executable 'Payload/Pellazgo.app/Frameworks/GoogleAppMeasurement.framework' is not a Position Independent Executable. Please ensure that your build settings are configured to create PIE executables. For more information refer to Technical Q&A QA1788 - Building a Position Independent Executable in the iOS Developer Library.",
+      "underlying-errors" : [
+
+      ],
+      "user-info" : {
+        "NSLocalizedDescription" : "The executable 'Payload/Pellazgo.app/Frameworks/GoogleAppMeasurement.framework' is not a Position Independent Executable. Please ensure that your build settings are configured to create PIE executables. For more information refer to Technical Q&A QA1788 - Building a Position Independent Executable in the iOS Developer Library.",
+        "server_warning" : "{\n    code = 90080;\n    description = \"The executable 'Payload/Pellazgo.app/Frameworks/GoogleAppMeasurement.framework' is not a Position Independent Executable. Please ensure that your build settings are configured to create PIE executables. For more information refer to Technical Q&A QA1788 - Building a Position Independent Executable in the iOS Developer Library.\";\n}"
+      }
+    }
+  ]
+}
+
+Failed to upload archive at "/Users/builder/clone/build/ios/ipa/Pellazgo.ipa"
+Failed to publish /Users/builder/clone/build/ios/ipa/Pellazgo.ipa
+
+Failed to publish Pellazgo.ipa to App Store Connect.
+
+Build failed :|
+
+
+Publishing failed :|
+Failed to publish Pellazgo.ipa to App Store C
