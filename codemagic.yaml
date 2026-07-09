@@ -36,6 +36,29 @@ workflows:
           echo "Using profile: $PROFILE_PATH"
           echo "PROFILE_PATH=$PROFILE_PATH" >> $CM_ENV
 
+      - name: Strip simulator architecture (thin to arm64 device only)
+        script: |
+          #!/bin/zsh
+          set -e
+          thin_if_needed() {
+            local bin="$1"
+            if [ -f "$bin" ] && lipo -info "$bin" 2>/dev/null | grep -q "arm64"; then
+              if lipo -info "$bin" 2>/dev/null | grep -q "x86_64\|i386"; then
+                lipo -thin arm64 "$bin" -output "$bin.thin"
+                mv "$bin.thin" "$bin"
+                echo "Thinned to arm64: $bin"
+              fi
+            fi
+          }
+          thin_if_needed "$APP_DIR/WebToNative"
+          for fw in "$APP_DIR"/Frameworks/*.framework; do
+            name=$(basename "$fw" .framework)
+            thin_if_needed "$fw/$name"
+          done
+          find "$APP_DIR" -name "*.dylib" | while read -r dylib; do
+            thin_if_needed "$dylib"
+          done
+
       - name: Patch non-PIE framework binaries
         script: |
           #!/bin/zsh
@@ -96,29 +119,6 @@ workflows:
                       patch_file(os.path.join(root, f))
           EOF
           python3 /tmp/fix_pie.py "$APP_DIR/Frameworks"
-
-      - name: Strip simulator architecture (thin to arm64 device only)
-        script: |
-          #!/bin/zsh
-          set -e
-          thin_if_needed() {
-            local bin="$1"
-            if [ -f "$bin" ] && lipo -info "$bin" 2>/dev/null | grep -q "arm64"; then
-              if lipo -info "$bin" 2>/dev/null | grep -q "x86_64"; then
-                lipo -thin arm64 "$bin" -output "$bin.thin"
-                mv "$bin.thin" "$bin"
-                echo "Thinned to arm64: $bin"
-              fi
-            fi
-          }
-          thin_if_needed "$APP_DIR/WebToNative"
-          for fw in "$APP_DIR"/Frameworks/*.framework; do
-            name=$(basename "$fw" .framework)
-            thin_if_needed "$fw/$name"
-          done
-          find "$APP_DIR" -name "*.dylib" | while read -r dylib; do
-            thin_if_needed "$dylib"
-          done
 
       - name: Fix CFBundleSupportedPlatforms in nested bundles/plists
         script: |
@@ -186,6 +186,10 @@ workflows:
           if [ -z "$CERT_NAME" ]; then
             CERT_NAME=$(security find-identity -v -p codesigning | grep "iPhone Distribution" | head -1 | awk -F '"' '{print $2}')
           fi
+          if [ -z "$CERT_NAME" ]; then
+            echo "No valid distribution signing identity found in keychain."
+            exit 1
+          fi
           echo "Signing identity: $CERT_NAME"
 
           rm -rf "$APP_DIR/embedded.mobileprovision"
@@ -203,6 +207,45 @@ workflows:
             "$APP_DIR"
 
           codesign --verify --deep --strict --verbose=2 "$APP_DIR"
+
+      - name: Verify build is clean before packaging
+        script: |
+          #!/bin/zsh
+          set -e
+          FAIL=0
+
+          echo "-- Checking architectures --"
+          for bin in "$APP_DIR/WebToNative" "$APP_DIR"/Frameworks/*.framework/*; do
+            [ -f "$bin" ] || continue
+            file "$bin" 2>/dev/null | grep -q "Mach-O" || continue
+            if lipo -info "$bin" 2>/dev/null | grep -qE "x86_64|i386"; then
+              echo "FAIL: simulator architecture still present in $bin"
+              FAIL=1
+            fi
+          done
+
+          echo "-- Checking for simulator platform strings in Info.plists --"
+          find "$APP_DIR" -name "Info.plist" | while read -r plist; do
+            if /usr/libexec/PlistBuddy -c "Print :CFBundleSupportedPlatforms" "$plist" 2>/dev/null | grep -qi "iPhoneSimulator"; then
+              echo "FAIL: iPhoneSimulator still referenced in $plist"
+              FAIL=1
+            fi
+          done
+
+          echo "-- Checking for flagged private symbol string --"
+          if strings -a "$APP_DIR/WebToNative" | grep -q "^dyld_get_dlopen_image_header$"; then
+            echo "FAIL: private symbol string still present in main executable"
+            FAIL=1
+          fi
+
+          echo "-- Checking code signature --"
+          codesign --verify --deep --strict "$APP_DIR" || FAIL=1
+
+          if [ "$FAIL" != "0" ]; then
+            echo "READY FOR APP STORE: NO -- see FAIL lines above"
+            exit 1
+          fi
+          echo "READY FOR APP STORE: YES"
 
       - name: Package IPA
         script: |
