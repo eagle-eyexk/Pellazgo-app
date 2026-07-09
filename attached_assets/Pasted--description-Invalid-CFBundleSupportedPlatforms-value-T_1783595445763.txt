@@ -1,0 +1,50 @@
+"description" : "Invalid CFBundleSupportedPlatforms value. The CFBundleSupportedPlatforms Info.plist key at “Payload/Pellazgo.app/GoogleUtilities_GoogleUtilities-Logger.bundle” contains an invalid value: [iPhoneSimulator]. Consider removing the CFBundleSupportedPlatforms key from the Info.plist file. If this bundle is part of a third-party framework, contact the developer of the framework for an update to address this issue."
+          }
+        }
+      ],
+      "user-info" : {
+        "NSLocalizedDescription" : "Invalid CFBundleSupportedPlatforms value. The CFBundleSupportedPlatforms Info.plist key at “Payload/Pellazgo.app/GoogleUtilities_GoogleUtilities-Logger.bundle” contains an invalid value: [iPhoneSimulator]. Consider removing the CFBundleSupportedPlatforms key from the Info.plist file. If this bundle is part of a third-party framework, contact the developer of the framework for an update to address this issue.",
+        "NSLocalizedFailureReason" : "The server’s response was: ‘{\n    code = 90542;\n    description = \"Invalid CFBundleSupportedPlatforms value. The CFBundleSupportedPlatforms Info.plist key at \\U201cPayload/Pellazgo.app/GoogleUtilities_GoogleUtilities-Logger.bundle\\U201d contains an invalid value: [iPhoneSimulator]. Consider removing the CFBundleSupportedPlatforms key from the Info.plist file. If this bundle is part of a third-party framework, contact the developer of the framework for an update to address this issue.\";\n}’.",
+        "NSUnderlyingError" : "Error Domain=IrisAPI Code=-19241 \"A server error occurred.\" UserInfo={code=90542, NSLocalizedDescription=A server error occurred., description=Invalid CFBundleSupportedPlatforms value. The CFBundleSupportedPlatforms Info.plist key at “Payload/Pellazgo.app/GoogleUtilities_GoogleUtilities-Logger.bundle” contains an invalid value: [iPhoneSimulator]. Consider removing the CFBundleSupportedPlatforms key from the Info.plist file. If this bundle is part of a third-party framework, contact the developer of the framework for an update to address this issue.}",
+        "iris-code" : "90542"
+      }
+    },
+    {
+      "code" : 90542,
+      "message" : "Invalid CFBundleSupportedPlatforms value. The CFBundleSupportedPlatforms Info.plist key at “Payload/Pellazgo.app/Firebase_FirebaseInAppMessaging_iOS.bundle” contains an invalid value: [iPhoneSimulator]. Consider removing the CFBundleSupportedPlatforms key from the Info.plist file. If this bundle is part of a third-party framework, contact the developer of the framework for an update to address this issue.",
+      "underlying-errors" : [
+        {
+          "code" : -19241,
+          "message" : "A server error occurred.",
+          "underlying-errors" : [
+
+          ],
+          "user-info" : {
+            "NSLocalizedDescription" : "A server error occurred.",
+            "code" : "90542",
+            "description" : "Invalid CFBundleSupportedPlatforms value. The CFBundleSupportedPlatforms Info.plist key at “Payload/Pellazgo.app/Firebase_FirebaseInAppMessaging_iOS.bundle” contains an invalid value: [iPhoneSimulator]. Consider removing the CFBundleSupportedPlatforms key from the Info.plist file. If this bundle is part of a third-party framework, contact the developer of the framework for an update to address this issue."
+          }
+        }
+      ],
+      "user-info" : {
+        "NSLocalizedDescription" : "Invalid CFBundleSupportedPlatforms value. The CFBundleSupportedPlatforms Info.plist key at “Payload/Pellazgo.app/Firebase_FirebaseInAppMessaging_iOS.bundle” contains an invalid value: [iPhoneSimulator]. Consider removing the CFBundleSupportedPlatforms key from the Info.plist file. If this bundle is part of a third-party framework, contact the developer of the framework for an update to address this issue.",
+        "NSLocalizedFailureReason" : "The server’s response was: ‘{\n    code = 90542;\n    description = \"Invalid CFBundleSupportedPlatforms value. The CFBundleSupportedPlatforms Info.plist key at \\U201cPayload/Pellazgo.app/Firebase_FirebaseInAppMessaging_iOS.bundle\\U201d contains an invalid value: [iPhoneSimulator]. Consider removing the CFBundleSupportedPlatforms key from the Info.plist file. If this bundle is part of a third-party framework, contact the developer of the framework for an update to address this issue.\";\n}’.",
+        "NSUnderlyingError" : "Error Domain=IrisAPI Code=-19241 \"A server error occurred.\" UserInfo={code=90542, NSLocalizedDescription=A server error occurred., description=Invalid CFBundleSupportedPlatforms value. The CFBundleSupportedPlatforms Info.plist key at “Payload/Pellazgo.app/Firebase_FirebaseInAppMessaging_iOS.bundle” contains an invalid value: [iPhoneSimulator]. Consider removing the CFBundleSupportedPlatforms key from the Info.plist file. If this bundle is part of a third-party framework, contact the developer of the framework for an update to address this issue.}",
+        "iris-code" : "90542"
+      }
+    }
+  ],
+  "tool-path" : "/Applications/Xcode-26.4.app/Contents/SharedFrameworks/ContentDelivery.framework/Resources",
+  "tool-version" : "26.30.4 (173004)"
+}
+
+Failed to upload archive at "/Users/builder/clone/build/ios/ipa/Pellazgo.ipa"
+Failed to publish /Users/builder/clone/build/ios/ipa/Pellazgo.ipa
+
+Failed to publish Pellazgo.ipa to App Store Connect.
+
+Build failed :|
+
+
+Publishing failed :|
+Failed to publish Pellazgo.ipa to App Store Connect.

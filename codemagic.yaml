@@ -117,6 +117,19 @@ workflows:
             thin_if_needed "$dylib"
           done
 
+      - name: Fix CFBundleSupportedPlatforms in nested bundles/plists
+        script: |
+          #!/bin/zsh
+          set -e
+          find "$APP_DIR" -name "Info.plist" | while read -r plist; do
+            if /usr/libexec/PlistBuddy -c "Print :CFBundleSupportedPlatforms" "$plist" 2>/dev/null | grep -qi "iPhoneSimulator"; then
+              /usr/libexec/PlistBuddy -c "Delete :CFBundleSupportedPlatforms" "$plist"
+              /usr/libexec/PlistBuddy -c "Add :CFBundleSupportedPlatforms array" "$plist"
+              /usr/libexec/PlistBuddy -c "Add :CFBundleSupportedPlatforms:0 string iPhoneOS" "$plist"
+              echo "Fixed CFBundleSupportedPlatforms: $plist"
+            fi
+          done
+
       - name: Patch non-public dyld symbol string in main executable
         script: |
           #!/bin/zsh
