@@ -14,6 +14,9 @@ workflows:
         APP_NAME: "Pellazgo"
         TEAM_ID: "H4QUDPK7S3"
         APP_DIR: "ios-app/Pellazgo.app"
+        ASC_APP_NAME: "PellazgoApp"
+        ASC_SKU: "PellazgoShop"
+        ASC_APPLE_ID: "6782613978"
     scripts:
       - name: Locate signing certificate & provisioning profile
         script: |
