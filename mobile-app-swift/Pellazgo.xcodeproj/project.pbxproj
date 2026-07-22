@@ -1,274 +1,279 @@
 // !$*UTF8*$!
 {
-        archiveVersion = 1;
-        classes = {
-        };
-        objectVersion = 56;
-        objects = {
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
 
 /* Begin PBXBuildFile section */
-                29A35BD905ADAF9BD1D1F206 /* PellazgoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A2D140F42F80458E0483AF /* PellazgoApp.swift */; };
-                BEB8E921AC56CAD48610B5A3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961CB99403EEEE6B7DA8F6E7 /* ContentView.swift */; };
-                924DEB814A21498B027B6245 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5290302D8029157659E038BF /* SplashView.swift */; };
-                89EDEB3C065C3FC8CCA3DCE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 38136DB98416E4D5A4E26909 /* Assets.xcassets */; };
+		29A35BD905ADAF9BD1D1F206 /* PellazgoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A2D140F42F80458E0483AF /* PellazgoApp.swift */; };
+		BEB8E921AC56CAD48610B5A3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961CB99403EEEE6B7DA8F6E7 /* ContentView.swift */; };
+		924DEB814A21498B027B6245 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5290302D8029157659E038BF /* SplashView.swift */; };
+		89EDEB3C065C3FC8CCA3DCE0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 38136DB98416E4D5A4E26909 /* Assets.xcassets */; };
+		EB33C0724F3C7E1197D5B2E8 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = E6C7D2DDE9B66367C038EA5F /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-                27A2D140F42F80458E0483AF /* PellazgoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PellazgoApp.swift; sourceTree = "<group>"; };
-                961CB99403EEEE6B7DA8F6E7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-                5290302D8029157659E038BF /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
-                38136DB98416E4D5A4E26909 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-                00A457661FCC5AA0127DE805 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-                F72023B668F6174025BDB9B3 /* Pellazgo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pellazgo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		27A2D140F42F80458E0483AF /* PellazgoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PellazgoApp.swift; sourceTree = "<group>"; };
+		961CB99403EEEE6B7DA8F6E7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		5290302D8029157659E038BF /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		38136DB98416E4D5A4E26909 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		00A457661FCC5AA0127DE805 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E6C7D2DDE9B66367C038EA5F /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		F72023B668F6174025BDB9B3 /* Pellazgo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pellazgo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-                D0F9667E7724872D7F95D08E /* Frameworks */ = {
-                        isa = PBXFrameworksBuildPhase;
-                        buildActionMask = 2147483647;
-                        files = (
-                        );
-                        runOnlyForDeploymentPostprocessing = 0;
-                };
+		D0F9667E7724872D7F95D08E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-                FE9FFD7816AF841990774413 = {
-                        isa = PBXGroup;
-                        children = (
-                                A1721EE2E89E24491B10344E /* Pellazgo */,
-                                AB984A74E2FD1EDB68D7C817 /* Products */,
-                        );
-                        sourceTree = "<group>";
-                };
-                A1721EE2E89E24491B10344E /* Pellazgo */ = {
-                        isa = PBXGroup;
-                        children = (
-                                27A2D140F42F80458E0483AF /* PellazgoApp.swift */,
-                                961CB99403EEEE6B7DA8F6E7 /* ContentView.swift */,
-                                5290302D8029157659E038BF /* SplashView.swift */,
-                                38136DB98416E4D5A4E26909 /* Assets.xcassets */,
-                                00A457661FCC5AA0127DE805 /* Info.plist */,
-                        );
-                        path = Pellazgo;
-                        sourceTree = "<group>";
-                };
-                AB984A74E2FD1EDB68D7C817 /* Products */ = {
-                        isa = PBXGroup;
-                        children = (
-                                F72023B668F6174025BDB9B3 /* Pellazgo.app */,
-                        );
-                        name = Products;
-                        sourceTree = "<group>";
-                };
+		FE9FFD7816AF841990774413 = {
+			isa = PBXGroup;
+			children = (
+				A1721EE2E89E24491B10344E /* Pellazgo */,
+				AB984A74E2FD1EDB68D7C817 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A1721EE2E89E24491B10344E /* Pellazgo */ = {
+			isa = PBXGroup;
+			children = (
+				27A2D140F42F80458E0483AF /* PellazgoApp.swift */,
+				961CB99403EEEE6B7DA8F6E7 /* ContentView.swift */,
+				5290302D8029157659E038BF /* SplashView.swift */,
+				38136DB98416E4D5A4E26909 /* Assets.xcassets */,
+				00A457661FCC5AA0127DE805 /* Info.plist */,
+				E6C7D2DDE9B66367C038EA5F /* PrivacyInfo.xcprivacy */,
+			);
+			path = Pellazgo;
+			sourceTree = "<group>";
+		};
+		AB984A74E2FD1EDB68D7C817 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F72023B668F6174025BDB9B3 /* Pellazgo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-                D075BB906475B3CF1E73CD9D /* Pellazgo */ = {
-                        isa = PBXNativeTarget;
-                        buildConfigurationList = FB9EAB4AE2C0925BEF800C56 /* Build configuration list for PBXNativeTarget "Pellazgo" */;
-                        buildPhases = (
-                                D4D8BA272C9973B2B00CB3FA /* Sources */,
-                                D0F9667E7724872D7F95D08E /* Frameworks */,
-                                E47007A27AF6FEE716842B58 /* Resources */,
-                        );
-                        buildRules = (
-                        );
-                        dependencies = (
-                        );
-                        name = Pellazgo;
-                        productName = Pellazgo;
-                        productReference = F72023B668F6174025BDB9B3 /* Pellazgo.app */;
-                        productType = "com.apple.product-type.application";
-                };
+		D075BB906475B3CF1E73CD9D /* Pellazgo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FB9EAB4AE2C0925BEF800C56 /* Build configuration list for PBXNativeTarget "Pellazgo" */;
+			buildPhases = (
+				D4D8BA272C9973B2B00CB3FA /* Sources */,
+				D0F9667E7724872D7F95D08E /* Frameworks */,
+				E47007A27AF6FEE716842B58 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Pellazgo;
+			productName = Pellazgo;
+			productReference = F72023B668F6174025BDB9B3 /* Pellazgo.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-                9933A53C713ACEE44C208EFE /* Project object */ = {
-                        isa = PBXProject;
-                        attributes = {
-                                BuildIndependentTargetsInParallel = 1;
-                                LastSwiftUpdateCheck = 1540;
-                                LastUpgradeCheck = 1540;
-                                TargetAttributes = {
-                                        D075BB906475B3CF1E73CD9D = {
-                                                CreatedOnToolsVersion = 15.4;
-                                        };
-                                };
-                        };
-                        buildConfigurationList = 2EB3C6C07D99B60387BBCAE5 /* Build configuration list for PBXProject "Pellazgo" */;
-                        compatibilityVersion = "Xcode 14.0";
-                        developmentRegion = en;
-                        hasScannedForEncodings = 0;
-                        knownRegions = (
-                                en,
-                                Base,
-                        );
-                        mainGroup = FE9FFD7816AF841990774413;
-                        productRefGroup = AB984A74E2FD1EDB68D7C817 /* Products */;
-                        projectDirPath = "";
-                        projectRoot = "";
-                        targets = (
-                                D075BB906475B3CF1E73CD9D /* Pellazgo */,
-                        );
-                };
+		9933A53C713ACEE44C208EFE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					D075BB906475B3CF1E73CD9D = {
+						CreatedOnToolsVersion = 15.4;
+					};
+				};
+			};
+			buildConfigurationList = 2EB3C6C07D99B60387BBCAE5 /* Build configuration list for PBXProject "Pellazgo" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = FE9FFD7816AF841990774413;
+			productRefGroup = AB984A74E2FD1EDB68D7C817 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D075BB906475B3CF1E73CD9D /* Pellazgo */,
+			);
+		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-                E47007A27AF6FEE716842B58 /* Resources */ = {
-                        isa = PBXResourcesBuildPhase;
-                        buildActionMask = 2147483647;
-                        files = (
-                                89EDEB3C065C3FC8CCA3DCE0 /* Assets.xcassets in Resources */,
-                        );
-                        runOnlyForDeploymentPostprocessing = 0;
-                };
+		E47007A27AF6FEE716842B58 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				89EDEB3C065C3FC8CCA3DCE0 /* Assets.xcassets in Resources */,
+				EB33C0724F3C7E1197D5B2E8 /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-                D4D8BA272C9973B2B00CB3FA /* Sources */ = {
-                        isa = PBXSourcesBuildPhase;
-                        buildActionMask = 2147483647;
-                        files = (
-                                29A35BD905ADAF9BD1D1F206 /* PellazgoApp.swift in Sources */,
-                                BEB8E921AC56CAD48610B5A3 /* ContentView.swift in Sources */,
-                                924DEB814A21498B027B6245 /* SplashView.swift in Sources */,
-                        );
-                        runOnlyForDeploymentPostprocessing = 0;
-                };
+		D4D8BA272C9973B2B00CB3FA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				29A35BD905ADAF9BD1D1F206 /* PellazgoApp.swift in Sources */,
+				BEB8E921AC56CAD48610B5A3 /* ContentView.swift in Sources */,
+				924DEB814A21498B027B6245 /* SplashView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-                2653A53D141D840AB9BAF8A8 /* Debug */ = {
-                        isa = XCBuildConfiguration;
-                        buildSettings = {
-                                ALWAYS_SEARCH_USER_PATHS = NO;
-                                CLANG_ANALYZER_NONNULL = YES;
-                                CLANG_ENABLE_MODULES = YES;
-                                CLANG_ENABLE_OBJC_ARC = YES;
-                                CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-                                COPY_PHASE_STRIP = NO;
-                                DEBUG_INFORMATION_FORMAT = dwarf;
-                                ENABLE_STRICT_OBJC_MSGSEND = YES;
-                                ENABLE_TESTABILITY = YES;
-                                GCC_C_LANGUAGE_STANDARD = gnu17;
-                                GCC_DYNAMIC_NO_PIC = NO;
-                                GCC_OPTIMIZATION_LEVEL = 0;
-                                GCC_PREPROCESSOR_DEFINITIONS = (
-                                        "DEBUG=1",
-                                        "$(inherited)",
-                                );
-                                IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-                                MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-                                MTL_FAST_MATH = YES;
-                                ONLY_ACTIVE_ARCH = YES;
-                                SDKROOT = iphoneos;
-                                SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-                                SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-                                SWIFT_VERSION = 5.0;
-                        };
-                        name = Debug;
-                };
-                671A7D1DEBD3783CDDD060F9 /* Release */ = {
-                        isa = XCBuildConfiguration;
-                        buildSettings = {
-                                ALWAYS_SEARCH_USER_PATHS = NO;
-                                CLANG_ANALYZER_NONNULL = YES;
-                                CLANG_ENABLE_MODULES = YES;
-                                CLANG_ENABLE_OBJC_ARC = YES;
-                                CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-                                COPY_PHASE_STRIP = NO;
-                                DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-                                ENABLE_NS_ASSERTIONS = NO;
-                                ENABLE_STRICT_OBJC_MSGSEND = YES;
-                                GCC_C_LANGUAGE_STANDARD = gnu17;
-                                IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-                                MTL_ENABLE_DEBUG_INFO = NO;
-                                MTL_FAST_MATH = YES;
-                                SDKROOT = iphoneos;
-                                SWIFT_COMPILATION_MODE = wholemodule;
-                                SWIFT_OPTIMIZATION_LEVEL = "-O";
-                                SWIFT_VERSION = 5.0;
-                                VALIDATE_PRODUCT = YES;
-                        };
-                        name = Release;
-                };
-                C0F21F22AF15F60240F520B9 /* Debug */ = {
-                        isa = XCBuildConfiguration;
-                        buildSettings = {
-                                ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-                                ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-                                CODE_SIGN_STYLE = Manual;
-                                CURRENT_PROJECT_VERSION = 1;
-                                DEVELOPMENT_TEAM = H4QUDPK7S3;
-                                ENABLE_PREVIEWS = YES;
-                                GENERATE_INFOPLIST_FILE = NO;
-                                INFOPLIST_FILE = Pellazgo/Info.plist;
-                                INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-                                INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-                                IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-                                LD_RUNPATH_SEARCH_PATHS = (
-                                        "$(inherited)",
-                                        "@executable_path/Frameworks",
-                                );
-                                MARKETING_VERSION = 1.0;
-                                PRODUCT_BUNDLE_IDENTIFIER = com.pellazgo.pellazgo;
-                                PRODUCT_NAME = "$(TARGET_NAME)";
-                                SWIFT_EMIT_LOC_STRINGS = YES;
-                                SWIFT_VERSION = 5.0;
-                                TARGETED_DEVICE_FAMILY = "1,2";
-                        };
-                        name = Debug;
-                };
-                E018756F202A2A79CFCB8256 /* Release */ = {
-                        isa = XCBuildConfiguration;
-                        buildSettings = {
-                                ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-                                ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-                                CODE_SIGN_STYLE = Manual;
-                                CURRENT_PROJECT_VERSION = 1;
-                                DEVELOPMENT_TEAM = H4QUDPK7S3;
-                                ENABLE_PREVIEWS = YES;
-                                GENERATE_INFOPLIST_FILE = NO;
-                                INFOPLIST_FILE = Pellazgo/Info.plist;
-                                INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-                                INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-                                IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-                                LD_RUNPATH_SEARCH_PATHS = (
-                                        "$(inherited)",
-                                        "@executable_path/Frameworks",
-                                );
-                                MARKETING_VERSION = 1.0;
-                                PRODUCT_BUNDLE_IDENTIFIER = com.pellazgo.pellazgo;
-                                PRODUCT_NAME = "$(TARGET_NAME)";
-                                SWIFT_EMIT_LOC_STRINGS = YES;
-                                SWIFT_VERSION = 5.0;
-                                TARGETED_DEVICE_FAMILY = "1,2";
-                        };
-                        name = Release;
-                };
+		2653A53D141D840AB9BAF8A8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				EXCLUDED_ARCHS = armv7;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		671A7D1DEBD3783CDDD060F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				EXCLUDED_ARCHS = armv7;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C0F21F22AF15F60240F520B9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H4QUDPK7S3;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Pellazgo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pellazgo.pellazgo;
+				PRODUCT_BUNDLE_PACKAGE_TYPE = APPL;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E018756F202A2A79CFCB8256 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H4QUDPK7S3;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Pellazgo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pellazgo.pellazgo;
+				PRODUCT_BUNDLE_PACKAGE_TYPE = APPL;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_WORKSPACE = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-                2EB3C6C07D99B60387BBCAE5 /* Build configuration list for PBXProject "Pellazgo" */ = {
-                        isa = XCConfigurationList;
-                        buildConfigurations = (
-                                2653A53D141D840AB9BAF8A8 /* Debug */,
-                                671A7D1DEBD3783CDDD060F9 /* Release */,
-                        );
-                        defaultConfigurationIsVisible = 0;
-                        defaultConfigurationName = Release;
-                };
-                FB9EAB4AE2C0925BEF800C56 /* Build configuration list for PBXNativeTarget "Pellazgo" */ = {
-                        isa = XCConfigurationList;
-                        buildConfigurations = (
-                                C0F21F22AF15F60240F520B9 /* Debug */,
-                                E018756F202A2A79CFCB8256 /* Release */,
-                        );
-                        defaultConfigurationIsVisible = 0;
-                        defaultConfigurationName = Release;
-                };
+		2EB3C6C07D99B60387BBCAE5 /* Build configuration list for PBXProject "Pellazgo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2653A53D141D840AB9BAF8A8 /* Debug */,
+				671A7D1DEBD3783CDDD060F9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FB9EAB4AE2C0925BEF800C56 /* Build configuration list for PBXNativeTarget "Pellazgo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C0F21F22AF15F60240F520B9 /* Debug */,
+				E018756F202A2A79CFCB8256 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
-        };
-        rootObject = 9933A53C713ACEE44C208EFE /* Project object */;
+	};
+	rootObject = 9933A53C713ACEE44C208EFE /* Project object */;
 }

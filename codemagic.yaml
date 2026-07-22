@@ -1,7 +1,52 @@
 workflows:
-  pellazgo-ios-workflow:
+
+  # ── Development build (ad-hoc) ─────────────────────────────────────────────
+  # Builds a signed IPA you can install directly on test devices.
+  # Trigger manually in Codemagic, or push to any branch.
+  pellazgo-ios-dev:
+    name: Pellazgo Shop iOS - Development Build
+    max_build_duration: 40
+    instance_type: mac_mini_m2
+    integrations:
+      app_store_connect: pellazgo_asc
+    environment:
+      ios_signing:
+        distribution_type: development
+        bundle_identifier: com.pellazgo.pellazgo
+      xcode: latest
+      vars:
+        BUNDLE_ID: "com.pellazgo.pellazgo"
+        XCODE_PROJECT: "mobile-app-swift/Pellazgo.xcodeproj"
+        XCODE_SCHEME: "Pellazgo"
+    scripts:
+      - name: Set up code signing
+        script: |
+          #!/bin/zsh
+          set -e
+          xcode-project use-profiles \
+            --project "$CM_BUILD_DIR/$XCODE_PROJECT"
+
+      - name: Build development IPA
+        script: |
+          #!/bin/zsh
+          set -e
+          xcode-project build-ipa \
+            --project "$CM_BUILD_DIR/$XCODE_PROJECT" \
+            --scheme "$XCODE_SCHEME" \
+            --config Debug
+
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - $HOME/Library/Logs/gym/*.log
+
+  # ── App Store / TestFlight build ────────────────────────────────────────────
+  # Auto-triggers on push to main. Increments build number, builds Release IPA,
+  # uploads to TestFlight, and submits for App Store review on approval.
+  pellazgo-ios-appstore:
     name: Pellazgo Shop iOS - TestFlight & App Store
     max_build_duration: 60
+    instance_type: mac_mini_m2
     integrations:
       app_store_connect: pellazgo_asc
     environment:
@@ -25,9 +70,11 @@ workflows:
         script: |
           #!/bin/zsh
           set -e
+          # Pull the highest existing build number from ASC; fall back to 0.
           LATEST=$(app-store-connect get-latest-testflight-build-number "$APP_ID" 2>/dev/null || \
-                   app-store-connect get-latest-app-store-build-number "$APP_ID" 2>/dev/null || \
+                   app-store-connect get-latest-app-store-build-number  "$APP_ID" 2>/dev/null || \
                    echo "0")
+          echo "Latest build number: $LATEST — setting to $(( LATEST + 1 ))"
           cd "$CM_BUILD_DIR/mobile-app-swift"
           agvtool new-version -all $(( LATEST + 1 ))
 
@@ -38,7 +85,7 @@ workflows:
           xcode-project use-profiles \
             --project "$CM_BUILD_DIR/$XCODE_PROJECT"
 
-      - name: Build IPA
+      - name: Build Release IPA
         script: |
           #!/bin/zsh
           set -e
@@ -53,25 +100,21 @@ workflows:
           set -e
           IPA_PATH=$(find "$CM_BUILD_DIR/build/ios/ipa" -name "*.ipa" | head -1)
           if [ -z "$IPA_PATH" ]; then
-            echo "ERROR: no IPA found to publish"
+            echo "ERROR: no IPA found"
             exit 1
           fi
-          echo "Publishing $IPA_PATH"
+          echo "Publishing: $IPA_PATH"
 
-          MAX_ATTEMPTS=5
-          ATTEMPT=1
+          MAX=5; ATTEMPT=1
           until app-store-connect publish \
             --path "$IPA_PATH" \
             --testflight \
             --app-store \
             --release-type AFTER_APPROVAL
           do
-            if [ "$ATTEMPT" -ge "$MAX_ATTEMPTS" ]; then
-              echo "ERROR: publish failed after $ATTEMPT attempts"
-              exit 1
-            fi
+            [ "$ATTEMPT" -ge "$MAX" ] && { echo "Publish failed after $MAX attempts"; exit 1; }
             WAIT=$(( ATTEMPT * 30 ))
-            echo "Publish attempt $ATTEMPT failed (likely a transient Apple ASC API error, e.g. list-apps 500). Retrying in ${WAIT}s..."
+            echo "Attempt $ATTEMPT failed (transient Apple ASC error). Retrying in ${WAIT}s..."
             sleep "$WAIT"
             ATTEMPT=$(( ATTEMPT + 1 ))
           done
@@ -81,3 +124,11 @@ workflows:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
       - $HOME/Library/Logs/gym/*.log
+
+    publishing:
+      email:
+        recipients:
+          - team@pellazgo.com
+        notify:
+          success: true
+          failure: true
