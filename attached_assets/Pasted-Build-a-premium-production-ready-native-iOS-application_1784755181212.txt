@@ -1,0 +1,345 @@
+Build a premium, production-ready native iOS application with an Apple-first design philosophy. The application should feel like a product designed by Apple rather than a cross-platform app.
+
+## Goal
+
+Create an elegant, fast, AI-powered iOS app with exceptional UX, fluid animations, and enterprise-grade architecture.
+
+## Design Language
+
+Follow Apple's Human Interface Guidelines.
+
+Use:
+- SwiftUI
+- iOS 18+
+- SF Symbols
+- Dynamic Type
+- Dark & Light Mode
+- Native NavigationStack
+- Native Sheets
+- Glassmorphism where appropriate
+- Smooth spring animations
+- Haptic feedback
+- Blur materials
+- Large navigation titles
+- Native tab bar
+- Native context menus
+- Swipe actions
+- Pull to refresh
+- Live Activities (where applicable)
+- Widgets
+- Shortcuts integration
+- Share Sheet
+- Spotlight Search
+- Universal Links
+
+The application should feel comparable to:
+- Apple Wallet
+- Apple Health
+- Things 3
+- Linear
+- Notion Calendar
+- Arc Search
+
+---
+
+## UI Requirements
+
+Minimal.
+
+Premium.
+
+Lots of whitespace.
+
+Large typography.
+
+Rounded corners (18–28px).
+
+Soft shadows.
+
+High contrast.
+
+Adaptive layouts.
+
+Beautiful onboarding.
+
+Fluid page transitions.
+
+Interactive cards.
+
+Smooth scrolling.
+
+Micro animations everywhere.
+
+Native keyboard behavior.
+
+Perfect accessibility.
+
+WCAG AA compliant.
+
+---
+
+## Performance
+
+60–120 FPS.
+
+Cold launch under 1 second.
+
+Offline-first architecture.
+
+Image caching.
+
+Background syncing.
+
+Optimistic UI.
+
+Fast local search.
+
+Lazy loading.
+
+Pagination.
+
+Memory efficient.
+
+Battery efficient.
+
+---
+
+## Architecture
+
+MVVM
+
+Swift Concurrency
+
+Actors
+
+Dependency Injection
+
+Repository Pattern
+
+Feature Modules
+
+Reusable Components
+
+Service Layer
+
+Networking Layer
+
+Secure Storage
+
+Error Handling
+
+Logging
+
+Analytics
+
+Testing
+
+CI/CD ready
+
+---
+
+## Backend
+
+Authentication
+
+Apple Sign In
+
+Google
+
+Email
+
+JWT
+
+Role-based permissions
+
+User profiles
+
+Notifications
+
+Cloud sync
+
+File uploads
+
+Image optimization
+
+Search
+
+Activity feeds
+
+Audit logs
+
+API versioning
+
+---
+
+## AI Features
+
+Integrate OpenAI.
+
+Prompt templates.
+
+Streaming responses.
+
+Conversation history.
+
+Memory.
+
+Voice input.
+
+Speech synthesis.
+
+Image generation.
+
+Image analysis.
+
+Document analysis.
+
+Smart suggestions.
+
+Semantic search.
+
+RAG support.
+
+Multi-agent workflows.
+
+---
+
+## Security
+
+Keychain storage.
+
+Encrypted local database.
+
+HTTPS only.
+
+Certificate pinning.
+
+Biometric authentication.
+
+Rate limiting.
+
+Secure tokens.
+
+Privacy-first architecture.
+
+GDPR ready.
+
+---
+
+## Notifications
+
+Push notifications.
+
+Local notifications.
+
+Scheduled reminders.
+
+Deep linking.
+
+Notification preferences.
+
+---
+
+## Data
+
+Offline support.
+
+Automatic sync.
+
+Conflict resolution.
+
+Background refresh.
+
+Export data.
+
+Import data.
+
+Backup & restore.
+
+---
+
+## Components
+
+Create reusable components for:
+
+- Buttons
+- Cards
+- Lists
+- Inputs
+- Search
+- Filters
+- Charts
+- Empty states
+- Loading states
+- Error states
+- Toasts
+- Dialogs
+- Bottom sheets
+- Carousels
+- Dashboards
+
+---
+
+## Animations
+
+Every interaction should feel premium.
+
+Use:
+
+- Matched Geometry
+- Spring animations
+- Interactive transitions
+- Scroll effects
+- Hero animations
+- Blur transitions
+- Loading skeletons
+- Progress animations
+
+---
+
+## Quality
+
+No placeholder screens.
+
+No dummy layouts.
+
+No unfinished components.
+
+Every screen fully functional.
+
+Every action validated.
+
+Every API error handled.
+
+Every loading state designed.
+
+Every empty state meaningful.
+
+Every permission request explained.
+
+---
+
+## Deliverables
+
+Generate:
+
+1. Complete product architecture
+2. Full SwiftUI project
+3. Database schema
+4. API specification
+5. Authentication flow
+6. Design system
+7. Component library
+8. Backend services
+9. AI integration
+10. Testing suite
+11. Deployment configuration
+12. App Store assets
+13. Privacy policy template
+14. Terms of service template
+15. Analytics implementation
+16. Monitoring
+17. Crash reporting
+18. Documentation
+
+The finished product should be visually comparable to top-tier iOS applications, highly polished, scalable to millions of users, and ready for App Store submission with minimal additional engineering.
