@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "Pellazgo Shop"
+version = "1.0.0"
+id = "artifacts/pellazgo-web"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 26046
+
+[services.development]
+run = "pnpm --filter @workspace/pellazgo-web run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/pellazgo-web", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/pellazgo-web/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "26046"
+BASE_PATH = "/"
