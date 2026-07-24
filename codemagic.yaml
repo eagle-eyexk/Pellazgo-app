@@ -1,134 +1,253 @@
 workflows:
 
-  # ── Development build (ad-hoc) ─────────────────────────────────────────────
-  # Builds a signed IPA you can install directly on test devices.
-  # Trigger manually in Codemagic, or push to any branch.
-  pellazgo-ios-dev:
-    name: Pellazgo Shop iOS - Development Build
+  pellazgo-ios-development:
+
+    name: Pellazgo iOS Development IPA
+
     max_build_duration: 40
+
     instance_type: mac_mini_m2
+
     integrations:
       app_store_connect: pellazgo_asc
+
     environment:
+
+      xcode: latest
+
       ios_signing:
         distribution_type: development
         bundle_identifier: com.pellazgo.pellazgo
-      xcode: latest
+
       vars:
-        BUNDLE_ID: "com.pellazgo.pellazgo"
-        XCODE_PROJECT: "mobile-app-swift/Pellazgo.xcodeproj"
-        XCODE_SCHEME: "Pellazgo"
+        XCODE_PROJECT: mobile-app-swift/Pellazgo.xcodeproj
+        XCODE_SCHEME: Pellazgo
+
+
     scripts:
-      - name: Set up code signing
+
+      - name: Checkout verification
         script: |
           #!/bin/zsh
           set -e
+
+          echo "Repository:"
+          pwd
+
+          ls -la mobile-app-swift
+
+
+      - name: Verify Bundle Identifier
+        script: |
+          #!/bin/zsh
+          set -e
+
+          cd "$CM_BUILD_DIR/mobile-app-swift"
+
+          BUNDLE=$(xcodebuild \
+            -project Pellazgo.xcodeproj \
+            -scheme Pellazgo \
+            -showBuildSettings | \
+            grep PRODUCT_BUNDLE_IDENTIFIER | \
+            awk '{print $3}')
+
+          echo "Detected Bundle ID: $BUNDLE"
+
+          if [ "$BUNDLE" != "com.pellazgo.pellazgo" ]; then
+            echo "ERROR: Bundle ID mismatch"
+            exit 1
+          fi
+
+
+      - name: Configure signing
+        script: |
+          #!/bin/zsh
+          set -e
+
           xcode-project use-profiles \
             --project "$CM_BUILD_DIR/$XCODE_PROJECT"
 
-      - name: Build development IPA
+
+      - name: Build Development IPA
         script: |
           #!/bin/zsh
           set -e
+
           xcode-project build-ipa \
             --project "$CM_BUILD_DIR/$XCODE_PROJECT" \
             --scheme "$XCODE_SCHEME" \
             --config Debug
 
+
     artifacts:
+
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
       - $HOME/Library/Logs/gym/*.log
 
-  # ── App Store / TestFlight build ────────────────────────────────────────────
-  # Auto-triggers on push to main. Increments build number, builds Release IPA,
-  # uploads to TestFlight, and submits for App Store review on approval.
-  pellazgo-ios-appstore:
-    name: Pellazgo Shop iOS - TestFlight & App Store
+
+
+  pellazgo-ios-testflight:
+
+
+    name: Pellazgo iOS TestFlight Release
+
+
     max_build_duration: 60
+
+
     instance_type: mac_mini_m2
+
+
     integrations:
+
       app_store_connect: pellazgo_asc
-    environment:
-      ios_signing:
-        distribution_type: app_store
-        bundle_identifier: com.pellazgo.pellazgo
-      xcode: latest
-      vars:
-        APP_ID: "6782613978"
-        BUNDLE_ID: "com.pellazgo.pellazgo"
-        XCODE_PROJECT: "mobile-app-swift/Pellazgo.xcodeproj"
-        XCODE_SCHEME: "Pellazgo"
+
+
     triggering:
+
       events:
         - push
+
       branch_patterns:
         - pattern: main
           include: true
-    scripts:
-      - name: Increment build number
-        script: |
-          #!/bin/zsh
-          set -e
-          # Pull the highest existing build number from ASC; fall back to 0.
-          LATEST=$(app-store-connect get-latest-testflight-build-number "$APP_ID" 2>/dev/null || \
-                   app-store-connect get-latest-app-store-build-number  "$APP_ID" 2>/dev/null || \
-                   echo "0")
-          echo "Latest build number: $LATEST — setting to $(( LATEST + 1 ))"
-          cd "$CM_BUILD_DIR/mobile-app-swift"
-          agvtool new-version -all $(( LATEST + 1 ))
 
-      - name: Set up code signing
+
+
+    environment:
+
+      xcode: latest
+
+      ios_signing:
+
+        distribution_type: app_store
+
+        bundle_identifier: com.pellazgo.pellazgo
+
+
+      vars:
+
+        APP_STORE_APP_ID: "6782613978"
+
+        XCODE_PROJECT: mobile-app-swift/Pellazgo.xcodeproj
+
+        XCODE_SCHEME: Pellazgo
+
+
+
+    scripts:
+
+
+      - name: Verify Bundle Identifier
+
         script: |
           #!/bin/zsh
           set -e
+
+          cd "$CM_BUILD_DIR/mobile-app-swift"
+
+          BUNDLE=$(xcodebuild \
+            -project Pellazgo.xcodeproj \
+            -scheme Pellazgo \
+            -showBuildSettings | \
+            grep PRODUCT_BUNDLE_IDENTIFIER | \
+            awk '{print $3}')
+
+          echo "Detected Bundle ID: $BUNDLE"
+
+          if [ "$BUNDLE" != "com.pellazgo.pellazgo" ]; then
+            echo "ERROR: Bundle ID mismatch"
+            exit 1
+          fi
+
+
+
+      - name: Increment Build Number
+
+        script: |
+          #!/bin/zsh
+          set -e
+
+          cd "$CM_BUILD_DIR/mobile-app-swift"
+
+          CURRENT=$(app-store-connect \
+            get-latest-testflight-build-number \
+            "$APP_STORE_APP_ID" 2>/dev/null || echo 0)
+
+          NEXT=$((CURRENT + 1))
+
+          echo "Setting build number: $NEXT"
+
+          agvtool new-version -all "$NEXT"
+
+
+
+      - name: Configure signing
+
+        script: |
+          #!/bin/zsh
+          set -e
+
           xcode-project use-profiles \
             --project "$CM_BUILD_DIR/$XCODE_PROJECT"
 
+
+
       - name: Build Release IPA
+
         script: |
           #!/bin/zsh
           set -e
+
           xcode-project build-ipa \
             --project "$CM_BUILD_DIR/$XCODE_PROJECT" \
             --scheme "$XCODE_SCHEME" \
             --config Release
 
-      - name: Publish to App Store Connect (with retry)
+
+
+      - name: Upload to TestFlight
+
         script: |
           #!/bin/zsh
           set -e
-          IPA_PATH=$(find "$CM_BUILD_DIR/build/ios/ipa" -name "*.ipa" | head -1)
-          if [ -z "$IPA_PATH" ]; then
-            echo "ERROR: no IPA found"
+
+          IPA=$(find "$CM_BUILD_DIR" -name "*.ipa" | head -1)
+
+          if [ -z "$IPA" ]; then
+            echo "No IPA found"
             exit 1
           fi
-          echo "Publishing: $IPA_PATH"
 
-          MAX=5; ATTEMPT=1
-          until app-store-connect publish \
-            --path "$IPA_PATH" \
-            --testflight \
-            --app-store \
-            --release-type AFTER_APPROVAL
-          do
-            [ "$ATTEMPT" -ge "$MAX" ] && { echo "Publish failed after $MAX attempts"; exit 1; }
-            WAIT=$(( ATTEMPT * 30 ))
-            echo "Attempt $ATTEMPT failed (transient Apple ASC error). Retrying in ${WAIT}s..."
-            sleep "$WAIT"
-            ATTEMPT=$(( ATTEMPT + 1 ))
-          done
-          echo "Publish succeeded on attempt $ATTEMPT"
+          echo "Uploading $IPA"
+
+          app-store-connect publish \
+            --path "$IPA" \
+            --testflight
+
+
 
     artifacts:
+
       - build/ios/ipa/*.ipa
+
       - /tmp/xcodebuild_logs/*.log
+
       - $HOME/Library/Logs/gym/*.log
 
+
+
     publishing:
+
       email:
+
         recipients:
+
           - team@pellazgo.com
+
         notify:
+
           success: true
+
           failure: true
